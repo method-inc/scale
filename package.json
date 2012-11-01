@@ -1,0 +1,36 @@
+{
+  "name": "quarry",
+  "version": "0.0.1",
+  "author": "Jim Snodgrass <jim@skookum.com>",
+  "dependencies": {
+    "express": "3.0.0rc2",
+    "connect-timeout": "*",
+    "connect-redis": "*",
+    "jade": "*",
+    "stylus": "*",
+    "mongoose": "*",
+    "password-hash": "*",
+    "restfuljs": "*",
+    "underscore": "*",
+    "async": "*",
+    "coffee-script": "*",
+    "nimbus": "*",
+    "moment": "*",
+    "pivotal": "*",
+    "mason": "0.1.7",
+    "superagent": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "scripts": {
+    "start": "node app"
+  },
+  "publicConfig": {
+    "request_timeout": 10000,
+    "session_secret": "secret4scale",
+    "stylus_compress": true,
+    "stylus_force": false,
+  }
+}

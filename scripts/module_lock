@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+
+var packages = require('../package.json');
+
+var versions = {};
+for (var p in packages.dependencies) {
+  var module = require('../node_modules/'+p+'/package.json');
+  if (packages.dependencies[p] == 'latest' || packages.dependencies[p] == '*') versions[p] = module.version;
+  else versions[p] = packages.dependencies[p];
+}
+packages.dependencies = versions;
+
+var dev_versions = {};
+for (var p in packages.devDependencies) {
+  var module = require('../node_modules/'+p+'/package.json');
+  if (packages.devDependencies[p] == 'latest' || packages.devDependencies[p] == '*') dev_versions[p] = module.version;
+  else dev_versions[p] = packages.devDependencies[p];
+}
+packages.devDependencies = dev_versions;
+
+
+fs.writeFileSync('../package.json', JSON.stringify(packages, null, 4), 'utf-8');

@@ -1,0 +1,66 @@
+.navbar
+  height 50px
+  background #ccc
+  padding 10px 20px
+  position relative
+
+  a.brand
+    padding 0
+    display inline-block
+    font-size 2em
+    color #222
+
+  .account
+    position absolute
+    top 12px
+    right 12px
+    padding 5px 40px
+    z-index 997
+
+    .nav
+      position absolute
+      top 0
+      right 0
+      width 25px
+      height 25px
+      background #333
+      color #555
+      border-radius 5px
+      z-index 998
+      cursor pointer
+      &:after
+        content "- - -"
+        position absolute
+        top 2px
+        right 0
+        bottom 0
+        left 0
+        overflow hidden
+        font-size 28px
+        font-weight 100
+        line-height 5px
+        text-align center
+      ul
+        position absolute
+        top 24px
+        right 0
+        display none
+        padding 1px
+        background #333
+        color #eee
+        z-index 999
+      li
+        border-bottom 1px solid #444
+        a
+          padding 10px 50px
+          display block
+        &:last-child
+          border-bottom none
+        &:hover
+          background rgba(255,255,255,0.1)
+      &:hover
+        border-radius 5px 5px 0 0
+        ul
+          display block
+          
+

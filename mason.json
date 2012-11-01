@@ -1,0 +1,18 @@
+{
+  "platform": {
+    "type": "javascript",
+    "fromBase": "public",
+    "fromSrc": [
+      "/js/vendor/jquery-1.7.1.min.js",
+      "/js/vendor/amplify.min.js",
+      "/js/vendor/knockout-2.0.0.js",
+      "/js/vendor/underscore.js",
+      "/js/vendor/jquery.fastconfirm-2.1.1/jquery.fastconfirm.js",
+      "/js/vendor/fastclick.js",
+      "/js/vendor/jquery.stayInWebApp.min.js",
+      "/js/ui.js"
+    ],
+    "toBase": "public",
+    "toSrc": "/compiled/platform.js"
+  }
+}

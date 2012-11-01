@@ -1,0 +1,50 @@
+extends ../../shared/views/layout
+
+block menubar
+  .menubar
+    ul.breadcrumbs.visible
+      li Projects
+    ul.actions
+      li.button(data-bind="click:startAddProject") Add project
+    br.clearfix
+
+
+block content
+  .wrap.cardview.visible
+    section.visible
+      h1.emptystate(data-bind="css:{visible:projects().length < 1}") No Projects
+      ul.table.projects(data-bind="foreach:projects")
+        li.card.project
+          h3: a(data-bind="text:name, attr:{href:url}")
+          p.description(data-bind="text:description")
+          ul.meta
+            li(data-bind="text:num_epics")
+            li(data-bind="text:num_stories")
+            li(data-bind="text:num_tasks")
+            li(data-bind="text:num_members")
+          p.note(data-bind="text:activity")
+          ul.controls
+            li edit
+
+  .modal#project(data-bind="css:{visible:addingProject}")
+    .container
+      h1(data-bind="text:projectModalHeader")
+      form(data-bind="submit:saveProject")
+        ul
+          li: input(type="text", data-bind="value:projectName, valueUpdate: 'afterkeydown'", placeholder="project name")
+          li: textarea(placeholder="project description", data-bind="value:projectDesc, valueUpdate: 'afterkeydown'")
+          li: input.button(type="submit", value="Save Project")
+          li: a.cancel(data-bind="click:cancelCreateProject") Cancel
+
+
+
+append scripts
+  script(src="/component/project/js/epic.js")
+  script(src="/component/project/js/project.js")
+  script(src="/component/dashboard/js/dashboard.js")
+
+  script
+    var DashboardVM = new Dashboard();
+    $(function(){
+      ko.applyBindings(DashboardVM);
+    })

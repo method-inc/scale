@@ -1,0 +1,5 @@
+#!/bin/bash
+
+TESTS=`find lib -name '*.test.*' && find components -name '*.test.*' && find test -name '*.test.*'`
+
+NODE_ENV=test node_modules/.bin/mocha -R list -r should --compilers coffee:coffee-script $TESTS

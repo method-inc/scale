@@ -18,7 +18,8 @@
     "moment": "*",
     "pivotal": "*",
     "mason": "0.1.7",
-    "superagent": "*"
+    "superagent": "*",
+    "jsdom": "*"
   },
   "devDependencies": {
     "mocha": "*",

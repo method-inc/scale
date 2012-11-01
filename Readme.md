@@ -1,3 +1,3 @@
-# Quarry
+# Scale
 
-Making sense of featuresets.
+Scale is a controller app for running load tests using multiple remote apps.

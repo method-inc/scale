@@ -10,7 +10,7 @@ module.exports = function(app) {
 
 
   function getTests(req,res,next) {
-    app.models.loadTest.find(function(err, results) {
+    app.models.loadTest.find({owner: req.session.user._id}, function(err, results) {
       res.locals.tests = results;
       return next(err);
     });

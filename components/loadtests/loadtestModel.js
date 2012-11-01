@@ -15,7 +15,17 @@ module.exports = function(app) {
 
   LoadTest.plugin(util.plugin.timestamps);
 
-    // Export
+
+  LoadTest.pre('save', function(next) {
+    if(!this.isNew) return next();
+
+    // put in code here that will create test jobs on remote apps
+
+    return next();
+  });
+
+
+  // Export
 
   return mongoose.model('LoadTest', LoadTest);
 

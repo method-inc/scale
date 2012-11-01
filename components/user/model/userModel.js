@@ -6,8 +6,7 @@ module.exports = function() {
   var User = new mongoose.Schema({
     email         : { type: String, index: true, required:true, lowercase: true, trim:true, unique: true, validate: [util.validate.email, 'not valid'] },
     name          : { type: String, trim: true },
-    password      : { type: String, trim: true, required:true, validate: [util.validate.length(4), 'required to be at least 4 characters'] },
-    pivotalToken  : { type: String, trim: true }
+    password      : { type: String, trim: true, required:true, validate: [util.validate.length(4), 'required to be at least 4 characters'] }
   }, {strict:true});
 
   // Plugins

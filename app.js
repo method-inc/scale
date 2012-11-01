@@ -11,6 +11,7 @@ var reload      = require('./lib/reload')();
 // Require our components
 var users       = require('./components/user');
 var dashboard   = require('./components/dashboard');
+var loadtests   = require('./components/loadtests');
 
 // add a couple of globals
 _ = require('underscore');
@@ -42,6 +43,7 @@ function main(config) {
   // initialize components
   users(app);
   dashboard(app);
+  loadtests(app);
 
   return app;
 }

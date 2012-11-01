@@ -1,0 +1,14 @@
+extends ../../shared/views/layout
+
+block subject
+
+block content
+  form.form-settings(action='/test', method='post')
+    .title-bar
+      h1 New Load Test
+    input.input-text(type='text', name='name', placeholder="test name")
+    input.input-text(type='text', name='url', placeholder="test url")
+    input.input-text(type='number', name='numUsers', placeholder="number of test users")
+    textarea.input-textarea(name='description', placeholder="test decription (optional)")
+    .button-bar
+      button.button-submit(type='submit') Create Test

@@ -31,6 +31,6 @@
     "request_timeout": 10000,
     "session_secret": "secret4scale",
     "stylus_compress": true,
-    "stylus_force": false,
+    "stylus_force": false
   }
 }

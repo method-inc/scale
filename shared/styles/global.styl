@@ -19,7 +19,6 @@
 // components
 
 @import '../../components/user/styles/main'
-@import '../../components/project/styles/main'
 
 
 ul
@@ -30,8 +29,6 @@ body
   font-family helvetica, arial, sans-serif
   font-size 14px
   color #333
-  &.appmode
-    overflow hidden
 
 h1
   font-weight 100
@@ -72,7 +69,7 @@ a
   &.wider
     width 600px
 
-.input-text
+.input-text, .input-textarea
   border-radius 3px
   font-size 18px
   color #666
@@ -81,6 +78,9 @@ a
   width 100%
   margin 0 0 10px 0
   border solid 1px #ddd
+
+.input-textarea
+  height 5em
 
 .button-bar
   padding-top 10px

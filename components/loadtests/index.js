@@ -46,8 +46,9 @@ module.exports = function(app) {
       console.log('Connected to Payload server.');
       socket.write(JSON.stringify(
         {
+          method: 'flood',
           location: test.url,
-          assets: test.resouces && test.resouces.length ? test.resouces : ['img', 'link', 'script']
+          asset_types: test.resouces && test.resouces.length ? test.resouces : ['img', 'link', 'script']
         }
       ));
     });

@@ -9,6 +9,16 @@ block content
     input.input-text(type='text', name='name', placeholder="test name")
     input.input-text(type='text', name='url', placeholder="test url")
     input.input-text(type='number', name='numUsers', placeholder="number of test users")
+    ul
+      li
+        input(type='checkbox', name='asset', value='img')
+        | Images
+      li
+        input(type='checkbox', name='asset', value='script')
+        | Scripts
+      li
+        input(type='checkbox', name='asset', value='link')
+        | Links/Stylesheets
     textarea.input-textarea(name='description', placeholder="test decription (optional)")
     .button-bar
       button.button-submit(type='submit') Create Test

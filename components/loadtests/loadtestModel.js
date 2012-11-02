@@ -8,6 +8,7 @@ module.exports = function(app) {
     name            : { type: String, trim: true, required:true },
     url             : { type: String, trim: true, required:true },
     numUsers        : { type: Number, trim: true, required:true },
+    resouces        : [{ type: String, trim: true }],
     description     : { type: String, trim: true }
   }, {strict:true});
 

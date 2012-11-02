@@ -1,4 +1,5 @@
-var path = require('path');
+var path = require('path'),
+    Socket = require('net').Socket;
 
 module.exports = function(app) {
 
@@ -19,7 +20,10 @@ module.exports = function(app) {
     render('show')
   ]);
 
-
+  app.get('/test/:id/run', app.user.loggedIn, [
+    getTest,
+    runTest
+  ])
 
   function getTest(req,res,next) {
     loadTest.findById(req.params.id, function(err, result) {
@@ -32,6 +36,25 @@ module.exports = function(app) {
     var params = req.body;
     params.owner = req.session.user && req.session.user._id;
     new loadTest(params).save(next);
+  }
+
+  function runTest(req, res) {
+    var socket = new Socket(),
+        test = res.locals.test;
+    socket.connect(3333);
+    socket.on('connect', function() {
+      console.log('Connected to Payload server.');
+      socket.write(JSON.stringify(
+        {
+          location: test.url,
+          assets: test.resouces && test.resouces.length ? test.resouces : ['img', 'link', 'script']
+        }
+      ));
+    });
+    socket.on('data', function(data) {
+      console.log('Results received');
+      res.send(JSON.parse(data));
+    });
   }
 
 };

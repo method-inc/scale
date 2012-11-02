@@ -3,3 +3,24 @@ extends ../../shared/views/layout
 
 block content
   h1= test.name
+  br
+  br
+  a.button(href='javascript:void(0)', id='runner') Run Test
+  script
+    window.onload = function() {
+      ;(function($) {
+        var test_id = '#{test._id}'
+          , $runner = $('#runner');
+        $runner.on('click', function() {
+          $.ajax({
+              url: '/test/' + test_id + '/run',
+              success: function(res) {
+                console.log(res);
+              },
+              error: function(res) {
+                console.log(res);
+              }
+            })
+        });
+      }(window.jQuery))
+    }

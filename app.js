@@ -31,6 +31,9 @@ function main(config) {
   // define models object
   app.models = {};
 
+  // define components with public files
+  app.components_with_public = [];
+
   // set home dir
   app.root_dir = path.normalize(__dirname);
 

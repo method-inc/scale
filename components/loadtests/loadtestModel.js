@@ -9,7 +9,8 @@ module.exports = function(app) {
     url             : { type: String, trim: true, required:true },
     numUsers        : { type: Number, trim: true, required:true },
     resouces        : [{ type: String, trim: true }],
-    description     : { type: String, trim: true }
+    description     : { type: String, trim: true },
+    batches         : { type: Number, 'default':0 }
   }, {strict:true});
 
   // Plugins

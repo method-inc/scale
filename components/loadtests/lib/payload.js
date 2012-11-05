@@ -1,12 +1,12 @@
 ;(function(global) {
-
+  console.log('hello');
   var path = require('path')
     , jsdom = require('jsdom')
     , async = require('async')
     , request = require('superagent');
 
   var Payload = (function() {
-    
+
     function Payload() {}
 
     /**
@@ -28,7 +28,7 @@
     /**
      * Time taken to load the target page's HTML markup
      *
-     * @return {Number} Load time for page markup 
+     * @return {Number} Load time for page markup
      */
     Payload.target.prototype.time = function() {
       return this.timing.end - this.timing.start;
@@ -60,7 +60,7 @@
 
     /**
      * Time taken to load the retrievable asset
-     * @return {Number} Load time for asset 
+     * @return {Number} Load time for asset
      */
     Payload.asset.prototype.time = function() {
       return this.timing.end - this.timing.start;
@@ -165,7 +165,7 @@
                 request.get(grabbing.location)
                   .end(function(res) {
                     grabbing.timing.end = Date.now();
-                    n(res.status >= 400 ? new Error('Recieved ' + res.status + 
+                    n(res.status >= 400 ? new Error('Recieved ' + res.status +
                                                       ' for ' + grabbing.location): null);
                   });
               }
@@ -179,7 +179,7 @@
     }
 
     return Payload;
-  
+
   }());
 
   if(typeof global !== 'undefined' && global.exports)

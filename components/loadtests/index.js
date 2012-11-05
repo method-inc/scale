@@ -1,10 +1,15 @@
 var path = require('path'),
-    Socket = require('net').Socket;
+    Socket = require('net').Socket,
+    _ = require("underscore");
 
 module.exports = function(app) {
 
+  app.components_with_public.push('loadtests');
+
   var loadTest = require('./loadtestModel')(app);
+  var testResult = require('./testResultModel')(app);
   app.models.loadTest = loadTest;
+  app.models.testResult = testResult;
 
   app.get('/test/new', app.user.loggedIn, [
     render('new')
@@ -23,11 +28,17 @@ module.exports = function(app) {
   app.get('/test/:id/run', app.user.loggedIn, [
     getTest,
     runTest
-  ])
+  ]);
+
+  app.get('/test/:id/results', app.user.loggedIn, [
+    getResults
+  ]);
 
   function getTest(req,res,next) {
     loadTest.findById(req.params.id, function(err, result) {
       res.locals.test = result;
+      // result.batches = 0;
+      // result.save(next);
       return next(err);
     });
   }
@@ -39,22 +50,49 @@ module.exports = function(app) {
   }
 
   function runTest(req, res) {
-    var socket = new Socket(),
-        test = res.locals.test;
+    var test = res.locals.test;
+
+    if(!test.batches) test.batches = 1;
+    else test.batches = test.batches + 1;
+    startTest(test);
+
+    test.save(res.tful);
+  }
+
+  function startTest(test) {
+    var socket = new Socket();
     socket.connect(3333);
     socket.on('connect', function() {
       console.log('Connected to Payload server.');
       socket.write(JSON.stringify(
         {
+          testId: test._id,
+          batchNumber:test.batches,
           location: test.url,
-          assets: test.resouces && test.resouces.length ? test.resouces : ['img', 'link', 'script']
+          asset_types: test.resouces && test.resouces.length ? test.resouces : ['img', 'link', 'script'],
+          method:'flood',
+          iterations:test.numUsers
         }
       ));
     });
+
     socket.on('data', function(data) {
-      console.log('Results received');
-      res.send(JSON.parse(data));
+      console.log('Receiving Data');
+      var returnData = JSON.parse(data);
+      _.each(returnData, function(d) {
+        testResult.insertNew(d, function(err) {
+          if(err) console.log(err);
+          return false;
+        });
+      });
     });
+  }
+
+
+
+  function getResults(req, res) {
+    var test = req.params['id'];
+    testResult.find({'parentTest':test}, res.tful);
   }
 
 };

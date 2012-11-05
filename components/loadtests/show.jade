@@ -2,25 +2,57 @@ extends ../../shared/views/layout
 
 
 block content
-  h1= test.name
-  br
-  br
-  a.button(href='javascript:void(0)', id='runner') Run Test
+  div.resultsWrapper
+    h1= test.name
+    br
+    br
+    a.button(href='javascript:void(0)', id='runner', data-bind='click:makeCall') Run Test
+
+
+    div.allResults(data-bind='foreach:results')
+      h1(data-bind='text:iteration')
+      table
+        thead
+          tr
+            th: strong Images
+            th: strong Start Time
+            th: strong Run Length
+        tbody(data-bind='foreach:images')
+          tr
+            td.resultLocation(data-bind='text:location')
+            td(data-bind='text:timeStarted')
+            td(data-bind='text:timeLength')
+
+      table(style="width:100%")
+        thead
+          tr
+            th: strong Links
+            th: strong Start Time
+            th: strong Run Length
+        tbody(data-bind='foreach:links')
+          tr
+            td.resultLocation(data-bind='text:location')
+            td(data-bind='text:timeStarted')
+            td(data-bind='text:timeLength')
+
+      table(style="width:100%")
+        thead
+          tr
+            th: strong Scripts
+            th: strong Start Time
+            th: strong Run Length
+        tbody(data-bind='foreach:scripts')
+          tr
+            td.resultLocation(data-bind='text:location')
+            td(data-bind='text:timeStarted')
+            td(data-bind='text:timeLength')
+
+
+
+
+append scripts
+  != embed_json(test, 'test')
+  script(src='/js/loadTestVM.js')
   script
-    window.onload = function() {
-      ;(function($) {
-        var test_id = '#{test._id}'
-          , $runner = $('#runner');
-        $runner.on('click', function() {
-          $.ajax({
-              url: '/test/' + test_id + '/run',
-              success: function(res) {
-                console.log(res);
-              },
-              error: function(res) {
-                console.log(res);
-              }
-            })
-        });
-      }(window.jQuery))
-    }
+    var mainTests = new mainTest(test);
+    ko.applyBindings(mainTests);

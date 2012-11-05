@@ -10,7 +10,8 @@
       "/js/vendor/jquery.fastconfirm-2.1.1/jquery.fastconfirm.js",
       "/js/vendor/fastclick.js",
       "/js/vendor/jquery.stayInWebApp.min.js",
-      "/js/ui.js"
+      "/js/ui.js",
+      "/js/helpers.js"
     ],
     "toBase": "public",
     "toSrc": "/compiled/platform.js"

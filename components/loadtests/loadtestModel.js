@@ -8,7 +8,7 @@ module.exports = function(app) {
     name            : { type: String, trim: true, required:true },
     url             : { type: String, trim: true, required:true },
     numUsers        : { type: Number, trim: true, required:true },
-    resouces        : [{ type: String, trim: true }],
+    assets          : [{ type: String, trim: true }],
     description     : { type: String, trim: true },
     batches         : { type: Number, 'default':0 },
     testType        : { type: String, 'enum':['flood', 'ramp'], 'default':'flood' }

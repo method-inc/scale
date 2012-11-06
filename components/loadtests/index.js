@@ -67,10 +67,9 @@ module.exports = function(app) {
       socket.write(JSON.stringify(
         {
           location: test.url,
-          // asset_types: test.resouces && test.resouces.length ? test.resouces : ['images', 'css', 'script'],
-          asset_types: ['images', 'css', 'scripts'],
-          method:'flood',
-          iterations:test.numUsers
+          asset_types: (test.assets.length > 0) ? test.assets : ['images', 'css', 'scripts'],
+          method:test.testType,
+          iterations:100
         }
       ));
     });

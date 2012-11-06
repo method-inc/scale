@@ -17,7 +17,9 @@ module.exports = function(app) {
 
   app.post('/test', app.user.loggedIn, [
     createTest,
-    redirect('/dashboard')
+    function(req, res) {
+      res.redirect('/test/'+res.locals.loadtest._id);
+    }
   ]);
 
   app.get('/test/:id', app.user.loggedIn, [
@@ -46,7 +48,8 @@ module.exports = function(app) {
   function createTest(req,res,next) {
     var params = req.body;
     params.owner = req.session.user && req.session.user._id;
-    new loadTest(params).save(next);
+    res.locals.loadtest = new loadTest(params);
+    res.locals.loadtest.save(next);
   }
 
   function runTest(req, res) {
@@ -84,8 +87,8 @@ module.exports = function(app) {
     });
   }
 
-  function addFromFlood(data, test) {
-    _.each(data.results, function(d) {
+  function addFromFlood(results, test) {
+    _.each(results, function(d) {
       d.testId = test._id;
       d.batchNumber = test.batches;
       testResult.insertNew(d, function(err) {

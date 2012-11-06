@@ -34,6 +34,7 @@ module.exports = function(app) {
 
 
   testResult.statics.insertNew = function(obj, callback) {
+
     var result = new app.models.testResult();
     result.assets = obj.assets;
 

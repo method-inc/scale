@@ -10,7 +10,7 @@ function mainTest(options) {
   // if batches is greater than 0, then tests have been ran so check for results
   if(this.batches() > 0) this.getResults(self);
 
-  this.getResultsTimeout = 10000;
+  this.getResultsTimeout = 2000;
 
   this.numUsers = ko.computed(function() {
     return 'Number of users: ' + options.numUsers;
@@ -86,7 +86,7 @@ function mainTest(options) {
 
 
   this.removeClassForSummary = ko.computed(function() {
-    if(this.completedTimes.scripts() > 0) $('div.resultsSummary').removeClass('noShow');
+    if(this.completedTimes.scripts() > 0 || this.completedTimes.images() > 0 || this.completedTimes.csss() > 0) $('div.resultsSummary').removeClass('noShow');
     return false;
   }, this);
   // $('div.resultsSummary').removeClass('noShow');
@@ -132,6 +132,7 @@ mainTest.prototype.getResults = function(that) {
       // console.log(data.data.length !== self.results().length);
       if(data.code === 200 && data.data.length !== self.results().length) {
         self.results([]);
+        _.each(self.completedTimes, function(i) {return i(0);});
         _.each(data.data, function(d) {self.addResult(d);});
       }
 

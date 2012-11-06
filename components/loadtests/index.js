@@ -63,31 +63,70 @@ module.exports = function(app) {
   }
 
   function startTest(test) {
-    var socket = new Socket();
-    socket.connect(3333);
-    socket.on('connect', function() {
-      console.log('Connected to Payload server.');
-      socket.write(JSON.stringify(
-        {
-          location: test.url,
-          asset_types: (test.assets.length > 0) ? test.assets : ['images', 'css', 'scripts'],
-          method:test.testType,
-          iterations:100
-        }
-      ));
+
+    // console.log(app.config.payload_servers);
+
+    var servers = app.config.payload_servers,
+        serverCount = servers.length,
+        iterationCount = Math.floor(test.numUsers/serverCount),
+        iterationRemain = test.numUsers % serverCount;
+
+
+
+
+    _.each(servers, function(server) {
+      var dataBuffer = '';
+      // if the first server, add the remainder
+      var itCount = iterationCount;
+      if(iterationRemain !== 0 && servers[0].name === server.name) itCount += iterationRemain;
+
+      var socket = new Socket();
+      socket.connect(server.port, server.ip_address);
+      socket.on('connect', function() {
+        console.log('Connected to Payload server ' + server.name + '.');
+        socket.write(JSON.stringify(
+          {
+            location: test.url,
+            asset_types: (test.assets.length > 0) ? test.assets : ['images', 'css', 'scripts'],
+            method:test.testType,
+            iterations:itCount
+          }
+        ));
+      });
+
+      socket.on('data', function(data) {
+        console.log('Receiving Data');
+        dataBuffer += data;
+
+      });
+
+      socket.on('end', function() {
+        console.log('done');
+        var returnData = JSON.parse(dataBuffer);
+
+        // console.log(returnData);
+
+        if(test.testType === 'flood') addFromFlood(returnData, test);
+        else addFromRamp(returnData, test);
+      });
+
+
+
+
     });
 
-    socket.on('data', function(data) {
-      console.log('Receiving Data', test);
-      var returnData = JSON.parse(data);
-
-      if(test.testType === 'flood') addFromFlood(returnData, test);
-      else addFromRamp(returnData, test);
-
-    });
   }
 
   function addFromFlood(results, test) {
+
+    // results.testId = test._id;
+    // results.batchNumber = test.batches;
+    // testResult.insertNew(results, function(err) {
+    //   if(err) console.log(err);
+    //   return false;
+    // });
+
+
     _.each(results, function(d) {
       d.testId = test._id;
       d.batchNumber = test.batches;

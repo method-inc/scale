@@ -4,15 +4,15 @@ var util = require('../../lib/mongoose-util'),
 
 module.exports = function(app) {
   var assets = {
-    img: [{
+    images: [{
       location: {type:String},
       timing: {start:{type:Number}, end:{type:Number}}
     }],
-    link: [{
+    css: [{
       location: {type:String},
       timing: {start:{type:Number}, end:{type:Number}}
     }],
-    script: [{
+    scripts: [{
       location: {type:String},
       timing: {start:{type:Number}, end:{type:Number}}
     }]
@@ -28,7 +28,8 @@ module.exports = function(app) {
     iteration:      { type: Number},
     assets:         assets,
     timing:         timing,
-    batch:          { type: Number }
+    batch:          { type: Number },
+    ramp:           { type: Number }
   }, {strict:true});
 
 
@@ -36,8 +37,8 @@ module.exports = function(app) {
     var result = new app.models.testResult();
     result.assets = obj.assets;
 
-    // temp
-    result.parentTest = '50941cb891f939d249000003';
+    result.parentTest = obj.testId;
+    result.batch = obj.batchNumber;
     result.iteration = obj.iteration;
     result.timing = obj.timing;
 

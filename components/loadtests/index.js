@@ -66,10 +66,9 @@ module.exports = function(app) {
       console.log('Connected to Payload server.');
       socket.write(JSON.stringify(
         {
-          testId: test._id,
-          batchNumber:test.batches,
           location: test.url,
-          asset_types: test.resouces && test.resouces.length ? test.resouces : ['img', 'link', 'script'],
+          // asset_types: test.resouces && test.resouces.length ? test.resouces : ['images', 'css', 'script'],
+          asset_types: ['images', 'css', 'scripts'],
           method:'flood',
           iterations:test.numUsers
         }
@@ -77,13 +76,34 @@ module.exports = function(app) {
     });
 
     socket.on('data', function(data) {
-      console.log('Receiving Data');
+      console.log('Receiving Data', test);
       var returnData = JSON.parse(data);
-      _.each(returnData, function(d) {
-        testResult.insertNew(d, function(err) {
-          if(err) console.log(err);
-          return false;
-        });
+
+      if(test.testType === 'flood') addFromFlood(returnData, test);
+      else addFromRamp(returnData, test);
+
+    });
+  }
+
+  function addFromFlood(data, test) {
+    _.each(data.results, function(d) {
+      d.testId = test._id;
+      d.batchNumber = test.batches;
+      testResult.insertNew(d, function(err) {
+        if(err) console.log(err);
+        return false;
+      });
+    });
+  }
+
+  function addFromRamp(data) {
+    // TODO -------
+    _.each(data.results, function(d) {
+      d.testId = data.testId;
+      d.batchNumber = data.batchNumber;
+      testResult.insertNew(d, function(err) {
+        if(err) console.log(err);
+        return false;
       });
     });
   }

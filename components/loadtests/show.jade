@@ -3,10 +3,36 @@ extends ../../shared/views/layout
 
 block content
   div.resultsWrapper
-    h1= test.name
+    h1(data-bind='text:name')
+    p(data-bind='text:url')
+    p(data-bind='text:numUsers')
     br
     br
     a.button(href='javascript:void(0)', id='runner', data-bind='click:makeCall') Run Test
+    br
+    br
+    a.button(data-bind='click:showResults', href='javascript:void(0)') Show/Hide Results
+
+    div.resultsSummary.noShow
+      h1 Batch Number 1
+      p(data-bind="text:iterations")
+      ul
+        li: strong Images
+        li(data-bind='text:imageAssets() + " assets"')
+        li(data-bind='text:imageAverageTime')
+        li(data-bind='text:completedAverages.images() + " average total"')
+      ul
+        li: strong CSS
+        li(data-bind='text:cssAssets() + " assets"')
+        li(data-bind='text:cssAverageTime')
+        li(data-bind='text:completedAverages.csss() + " average total"')
+      ul
+        li: strong Scripts
+        li(data-bind='text:scriptAssets() + " assets"')
+        li(data-bind='text:scriptAverageTime')
+        li(data-bind='text:completedAverages.scripts() + " average total"')
+
+
 
 
     div.allResults(data-bind='foreach:results')
@@ -14,7 +40,7 @@ block content
       table
         thead
           tr
-            th: strong Images
+            th.resultLocation: strong Images
             th: strong Start Time
             th: strong Run Length
         tbody(data-bind='foreach:images')
@@ -23,22 +49,22 @@ block content
             td(data-bind='text:timeStarted')
             td(data-bind='text:timeLength')
 
-      table(style="width:100%")
+      table
         thead
           tr
-            th: strong Links
+            th.resultLocation: strong CSS
             th: strong Start Time
             th: strong Run Length
-        tbody(data-bind='foreach:links')
+        tbody(data-bind='foreach:csss')
           tr
             td.resultLocation(data-bind='text:location')
             td(data-bind='text:timeStarted')
             td(data-bind='text:timeLength')
 
-      table(style="width:100%")
+      table
         thead
           tr
-            th: strong Scripts
+            th.resultLocation: strong Scripts
             th: strong Start Time
             th: strong Run Length
         tbody(data-bind='foreach:scripts')

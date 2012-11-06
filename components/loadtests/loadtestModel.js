@@ -10,7 +10,8 @@ module.exports = function(app) {
     numUsers        : { type: Number, trim: true, required:true },
     resouces        : [{ type: String, trim: true }],
     description     : { type: String, trim: true },
-    batches         : { type: Number, 'default':0 }
+    batches         : { type: Number, 'default':0 },
+    testType        : { type: String, 'enum':['flood', 'ramp'], 'default':'flood' }
   }, {strict:true});
 
   // Plugins
